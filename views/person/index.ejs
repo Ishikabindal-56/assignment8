@@ -1,0 +1,28 @@
+<%- include("../partials/header") %>
+<%- include("../partials/navbar") %> 
+<%- include("../partials/footer") %> 
+
+<main class="container">
+    <h1 class="display-5">Users Visited</h1><br>
+    <div class="row">
+        <% for(let person of persons){ %> 
+        <div class="col-lg-4">
+            <div class="card mx-auto" style="width: 20rem;">
+                <div class="card-body">
+                  <p class="card-title"><strong>Name: </strong> <%=person.name%></p>
+                  <p class="card-text"><strong>Email: </strong> <%=person.email%></p>
+                  <p class="card-text"><strong>Phone No.: </strong> <%=person.phone%></p>
+                  <p class="card-text"><strong>Checkin Time: </strong> <%=person.checkin%></p>
+                  <% if(person.isAvailable === false){ %> 
+                    <p class="card-text" id="checkout"><strong>Checkout Time: </strong> <%=person.checkout%></p>
+                  <% }  else { %>
+                    <p class="card-text" id="checkout"><strong>Checkout Time: </strong> -</p>
+                    <% } %> 
+                  <p class="card-title" id="status"><strong>Status: </strong> <%=person.isAvailable%></p>
+                  <a href="/persons/<%=person._id%>" class="btn btn-outline-primary">Show</a>
+                </div>
+              </div>
+        </div>
+        <% } %> 
+    </div>
+</main>
