@@ -7,23 +7,23 @@ const API = 'SG.vEFoHyeURnm5_CJE2EfXyg.DN4d-Ne0V--hIm8s2Hn7FRClBtrf7CNNi1BGoQbYW
 
 sgmail.setApiKey(API);
 
-router.get('/persons', async(req,res)=>{
+router.get('/', async(req,res)=>{
     // send();
     const persons = await Person.find({});
     res.render('person/index',{persons})
 })
 
-router.get('/persons/new', (req, res) => {
+router.get('/new', (req, res) => {
     res.render('person/new')
 });
 
-router.post('/persons', async(req, res) => {
+router.post('/', async(req, res) => {
     const newPersons = {
         ...req.body,
         checkin: new Date().toLocaleTimeString()
     }
     await Person.create(newPersons);
-    res.redirect('/persons');
+    res.redirect('/');
     //sms
     client.messages
     .create({
@@ -49,7 +49,7 @@ router.post('/persons', async(req, res) => {
     .catch(err =>console.log(err.message))
 });
 
-router.get('/persons/:id', async(req, res) => {
+router.get('/:id', async(req, res) => {
     const {id} = req.params;
     const persons = await Person.findById(id);
     res.render('person/show', {persons});
@@ -61,12 +61,12 @@ router.get('/persons/:id', async(req, res) => {
 //     res.render('person/edit', { persons });
 // });
 
-router.patch('/persons/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
     const { id } = req.params;
     const persons = await Person.findById(id);
     await Person.findByIdAndUpdate(id, {$set:{checkout: new Date().toLocaleTimeString()}});
     await Person.findByIdAndUpdate(id, {$set:{isAvailable:false}});
-    res.redirect('/persons');
+    res.redirect('/');
     //sms
     client.messages
     .create({
@@ -92,10 +92,10 @@ router.patch('/persons/:id', async (req, res) => {
     .catch(err =>console.log(err.message))
 });
 
-router.delete('/persons/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     await Person.findByIdAndDelete(id);
-    res.redirect('/persons');
+    res.redirect('/');
 })
 
 module.exports = router;

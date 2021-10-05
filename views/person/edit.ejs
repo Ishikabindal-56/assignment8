@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-6 mx-auto">
             <h1 class="display-6">Check Out</h1>
-            <form action="/persons/<%=persons._id%>?_method=PATCH" method="POST">
+            <form action="/<%=persons._id%>?_method=PATCH" method="POST">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="Enter Name" value="<%= persons.name %>" required>
