@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Person = require('../models/person');
+require('dotenv').config();
 const sgmail = require('@sendgrid/mail');
-const client = require('twilio')('AC40fb23283b9522ab8fed6ea70e468e01', 'f7adeb855c16c217fa56b24d0b03c6d6'); 
-const API = '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';
+const client = require('twilio')(process.env.A, process.env.B); 
+const API = process.env.API;
 
 sgmail.setApiKey(API);
 
 router.get('/', async(req,res)=>{
-    // send();
     const persons = await Person.find({});
     res.render('person/index',{persons})
 })
@@ -31,8 +31,7 @@ router.post('/', async(req, res) => {
     from: '+15153165049',
     to: `{+91${newPersons.phone}}`
     })
-    .then(message => console.log(message.sid))
-    .catch((err)=>console.log(err))
+    .then(message => console.log(message.sid)).catch((err)=>console.log("Twilio not connected"))
     //email
     const mess = {
         to:`${newPersons.email}`,
@@ -45,8 +44,7 @@ router.post('/', async(req, res) => {
         html: '<h1>You just logged in successfully</h1>'
     };
     sgmail.send(mess)
-    .then(res =>console.log("Email sent"))
-    .catch(err =>console.log(err.message))
+    .then(res =>console.log("Email sent")).catch(err =>console.log(err.message))
 });
 
 router.get('/:id', async(req, res) => {
@@ -74,8 +72,7 @@ router.patch('/:id', async (req, res) => {
     from: '+15153165049',
     to: `{+91${persons.phone}}`
     })
-    .then(message => console.log(message.sid))
-    .catch((err)=>console.log(err))
+    .then(message => console.log(message.sid)).catch((err)=>console.log("Twilio not connected"))
     //email
     const mess = {
         to:`${persons.email}`,
@@ -88,8 +85,7 @@ router.patch('/:id', async (req, res) => {
         html: '<h1>You just logged out successfully</h1>'
     };
     sgmail.send(mess)
-    .then(res =>console.log("Email sent"))
-    .catch(err =>console.log(err.message))
+    .then(res =>console.log("Email sent")).catch(err =>console.log(err.message))
 });
 
 router.delete('/:id', async (req, res) => {
